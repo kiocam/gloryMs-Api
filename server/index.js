@@ -5,7 +5,7 @@ const app = express()
 const mysql = require('mysql')
 
 const hostname = 'localhost';
-const port = 3000;
+const port = process.env.PORT;
 
 
 const connection = mysql.createConnection({
@@ -14,6 +14,8 @@ const connection = mysql.createConnection({
     password    : process.env.DB_PASS,
     database    : process.env.DB_NAME
 })
+
+const
 
 /* request to default route */
 app.get('/', (req, res) => {
