@@ -1,4 +1,5 @@
 require('dotenv').config()
+const cors = require('cors')
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -15,7 +16,8 @@ const connection = mysql.createConnection({
     database    : process.env.DB_NAME
 })
 
-const
+app.use(cors())
+
 
 /* request to default route */
 app.get('/', (req, res) => {
