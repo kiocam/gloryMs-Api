@@ -1,8 +1,12 @@
+require('dotenv').config()
+const http = require('http')
 const express = require('express')
 const app = express()
 const mysql = require('mysql')
 
-require('dotenv').config()
+const hostname = 'localhost';
+const port = 3000;
+
 
 const connection = mysql.createConnection({
     host        : process.env.DB_HOST,
@@ -62,6 +66,6 @@ app.get('/characters/created', (req, res) => {
     })
 })
 
-app.listen(3000, ()=> {
-    console.log('Server is up and running on 3000');
+app.listen(port, hostname, ()=> {
+    console.log(`server is running at http://${hostname}:${port}/`);
 })
