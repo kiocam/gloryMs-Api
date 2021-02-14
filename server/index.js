@@ -22,7 +22,7 @@ app.use(cors())
 /* request to default route */
 app.get('/', (req, res) => {
     console.log('getting root route');
-    res.send("Hello from down under")
+    res.send("Welcome to gloryMS server")
 })
 
 /* request to get amout of players online */
