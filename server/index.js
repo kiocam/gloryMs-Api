@@ -74,7 +74,6 @@ app.get('/characters/created', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-    console.log(req.body);
     console.log('creating account');
     hashedPassword = passwordHash.generate(req.body.password)
     connection
