@@ -5,6 +5,9 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 
+const passwordHash = require('password-hash')
+let hashedPassword = null
+
 const hostname = 'localhost';
 const port = process.env.PORT;
 
@@ -17,7 +20,7 @@ const connection = mysql.createConnection({
 })
 
 app.use(cors())
-
+app.use(express.json())
 
 /* request to default route */
 app.get('/', (req, res) => {
@@ -67,6 +70,21 @@ app.get('/characters/created', (req, res) => {
             return
         }
         res.json(rows)
+    })
+})
+
+app.post('/register', (req, res) => {
+    console.log(req.body);
+    console.log('creating account');
+    hashedPassword = passwordHash.generate(req.body.password)
+    connection
+    const queryString = `INSERT INTO accounts (name, email, password) VALUES ('${req.body.username}', '${req.body.email}', '${hashedPassword}')`
+    connection.query(queryString, (err, rows, fields) => {
+        if (err) {
+            console.log('failed to create account: ' + err);
+            res.sendStatus(500)
+            return
+        }
     })
 })
 
