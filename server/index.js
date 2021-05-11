@@ -5,8 +5,8 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 
-const passwordHash = require('password-hash')
-let hashedPassword = null
+const bcrypt = require('bcryptjs')
+
 
 const hostname = 'localhost';
 const port = process.env.PORT;
@@ -73,12 +73,12 @@ app.get('/characters/created', (req, res) => {
     })
 })
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     console.log('creating account');
-    hashedPassword = passwordHash.generate(req.body.password)
+    const hash = await bcrypt.hash(req.body.password, 10)
     connection
-    const queryString = `INSERT INTO accounts (name, email, password) VALUES ('${req.body.username}', '${req.body.email}', '${hashedPassword}')`
-    connection.query(queryString, (err, rows, fields) => {
+    const queryString = `INSERT INTO accounts (name, email, password) VALUES ('${req.body.username}', '${req.body.email}', '${hash}')`
+    await connection.query(queryString, (err, rows, fields) => {
         if (err) {
             console.log('failed to create account: ' + err);
             res.sendStatus(500)
